@@ -6,6 +6,9 @@ import './styles.css';
 import SummaryChart from './components/SummaryChart';
 import Papa from "papaparse";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +20,9 @@ const App = () => {
   const fetchTransactions = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/transactions');
+      // Fetch all transactions
+      const response = await axios.get(`${API_BASE_URL}/api/transactions`);
+
       setTransactions(response.data);
       setLoading(false);
     } catch (error) {
@@ -56,7 +61,7 @@ const App = () => {
     if (!confirm) return;
 
     try{
-      await axios.delete(`http://localhost:5000/api/transactions/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/transactions/${id}`);
       setTransactions(transactions.filter(tx=>tx._id !== id));
     }
     catch(error){
